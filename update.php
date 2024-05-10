@@ -1,7 +1,7 @@
 <?php
 require_once "functions.php";
 
-$id = $_POST['id'] ?? null;
+$id = $_GET['id'] ?? null;
 if (!$id) {
     header('Location: index.php');
     exit;
@@ -10,14 +10,14 @@ if (!$id) {
 $pdo = new PDO('mysql:host=localhost;port=3306;dbname=php_products_crud', 'root', '');
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$statement = $pdo->prepare('SELECT * FROM products WHERE id = :id');
+$statement = $pdo->prepare('SELECT * FROM products WHERE Id = :id');
 $statement->bindValue(':id', $id);
 $statement->execute();
 $product = $statement->fetch(PDO::FETCH_ASSOC);
 
-$title = $product['title'];
-$description = $product['description'];
-$price = $product['price'];
+$title = $product['Title'];
+$description = $product['Description'];
+$price = $product['Price'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -33,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($image) {
-        if ($product['image']) {
-            unlink($product['image']);
+        if ($product['Image']) {
+            unlink($product['Image']);
         }
         $imagePath = 'images/' . randomString(8) . '/' . $image['name'];
         mkdir(dirname($imagePath));
@@ -50,10 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-        $statement = $pdo->prepare("UPDATE products SET title = :title, 
-                                        image = :image, 
-                                        description = :description, 
-                                        price = :price WHERE id = :id");
+        $statement = $pdo->prepare("UPDATE products SET Title = :title, 
+                                        Image = :image, 
+                                        Description = :description, 
+                                        Price = :price WHERE Id = :id");
         $statement->bindValue(':title', $title);
         $statement->bindValue(':image', $imagePath);
         $statement->bindValue(':description', $description);
@@ -77,14 +77,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link href="app.css" rel="stylesheet"/>
+    <link href="style.css" rel="stylesheet"/>
     <title>Products CRUD</title>
 </head>
 <body>
 <p>
-    <a href="index.php" class="btn btn-default">Back to products</a>
+    <a href="index.php" type="button" class="btn btn-secondary" style="background-color:#C39BD3;">Back to products</a>
 </p>
-<h1>Update Product: <b><?php echo $product['title'] ?></b></h1>
+<h1>Update Product: <b><?php echo $product['Title'] ?></b></h1>
 
 <?php if (!empty($errors)): ?>
     <div class="alert alert-danger">
@@ -95,21 +95,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 
 <form method="post" enctype="multipart/form-data">
-    <?php if ($product['image']): ?>
-        <img src="<?php echo $product['image'] ?>" class="product-img-view">
+
+    <?php if ($product['Image']): ?>
+        <img src="<?php echo $product['Image'] ?>" class="product-img-view">
     <?php endif; ?>
+  <br> <br>
     <div class="form-group">
-        <label>Product Image</label><br>
+        <label>New product Image</label><br>
         <input type="file" name="image">
     </div>
+
     <div class="form-group">
         <label>Product title</label>
         <input type="text" name="title" class="form-control" value="<?php echo $title ?>">
     </div>
+
     <div class="form-group">
         <label>Product description</label>
         <textarea class="form-control" name="description"><?php echo $description ?></textarea>
     </div>
+
     <div class="form-group">
         <label>Product price</label>
         <input type="number" step=".01" name="price" class="form-control" value="<?php echo $price ?>">

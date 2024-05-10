@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products CRUD</title>
-
+    <link href="style.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
@@ -87,23 +87,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label>Product Image</label><br>
         <input type="file" name="image">
     </div>
-
+  <br>
     <div class="form-group">
         <label>Product title</label>
         <input type="text" name="title" class="form-control" value="<?php echo $title ?>">
     </div>
-
+    <br>
     <div class="form-group">
         <label>Product description</label>
         <textarea class="form-control" name="description"><?php echo $description ?></textarea>
     </div>
-
+    <br>
     <div class="form-group">
         <label>Product price</label>
         <input type="number" step=".01" name="price" class="form-control" value="<?php echo $price ?>">
     </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
+ <br> 
+  <p style="padding:0px 20px">
+        <button type="submit" style="padding: 8px 15px; width:100px;" class="btn btn-primary">Submit</button>
+  </p>
 </form>
 
 </body>

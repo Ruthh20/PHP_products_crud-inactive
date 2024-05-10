@@ -3,8 +3,16 @@ body {
 }
 
 .product-img {
-    width: 50px;
+    width: 65px;
+    height: 90px;
 }
 .product-img-view {
     width: 120px;
+}
+.form-group{
+ margin: 20px;
+}
+
+label{
+    font-weight: bold;
 }
